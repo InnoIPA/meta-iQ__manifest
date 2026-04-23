@@ -1,7 +1,5 @@
 name: Update Version Record
 
-# workflow based on https://github.com/JH989876525/twin_repo
-
 on:
   repository_dispatch:
     types: [version_update]
@@ -11,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   token: ${{ secrets.MY_PAT }}
+        with:
+          token: ${{ secrets.MY_PAT }}
 
       - name: Update Files
         run: |
