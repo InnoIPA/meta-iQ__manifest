@@ -6,30 +6,40 @@
 -->
 
 - [Overview](#overview)
-- [Release table](#release-table)
+- [Latest release](#latest-release)
 - [Requirement](#requirement)
-- [Build Image \& SDK from BSP](#build-image--sdk-from-bsp)
+- [Build Image](#build-image)
 - [Flash Image](#flash-image)
+- [Development](#development)
 - [FAQ](#faq)
 - [Reference](#reference)
 
 # Overview
-This repository provide the bsp of platfroms which base on [Qualcomm yocto](https://github.com/quic-yocto/qcom-manifest) :
-- exmp-q911: qcs9075 COMHPC mini module.
-- qcs9075-iq-9075-evk: rb8 for evaluation.
+This repository provide the bsp for following platfroms which base on [Qualcomm yocto](https://github.com/quic-yocto/qcom-manifest) :
 
-# Release table
-| Version | Date         | Status    | Description |
+| Machine | Platform Description | Current Position |
+|---|---|---|
+| `exmp-q911` | QCS9075 COM-HPC Mini module | Main DVT platform baseline |
+| `qcs9075-iq-9075-evk` | RB8 / QCS9075 EVK | Reference evaluation baseline |
+
+# Latest release 
+| [Version](doc/VERSION.md) | Date         | Status    | Description |
 |---------|--------------|-----------|-------------|
-| v0.0.1  | 2025-09-03   | Released  | Initial release based on exec-q911 EVT. |
-| v0.0.2  | 2025-09-08   | Released  | Enable ethernet0. |
-| v0.0.3  | 2025-11-13   | Released  | Enable mipi, pmic thermal, lan phy led, ina260 hwmon, ethernet1. Add tpm utility, libraries for i-cap. |
-| v0.1.0  | 2025-11-14   | Released  | Upgrade to QLI1.6-1.2.1. |
-| v1.1.0  | 2026-01-13   | Released  | New machine exma-q911 EVT & enable excc-q911 audio function. |
-| v2.1.0  | 2026-03-12   | Released  | exmp-q911 DVT & some issue fixed. |
-| v2.3.0  | 2026-04-08   | Released  | Upgrade to QLI1.8-1.1. |
 | v2.3.1  | 2026-04-23   | Released  | Github action to InnoIPA. |
-- Check [version rules](doc/VERSION.md).
+
+<details>
+<summary>Release history</summary>
+
+| [Version](doc/VERSION.md) | Date         | Status    | Description |
+|---------|--------------|-----------|-------------|
+| v2.3.0  | 2026-04-08   | Released  | Upgrade to QLI1.8-1.1. |
+| v2.1.0  | 2026-03-12   | Released  | exmp-q911 DVT & some issue fixed. |
+| v1.1.0  | 2026-01-13   | Released  | New machine exma-q911 EVT & enable excc-q911 audio function. |
+| v0.1.0  | 2025-11-14   | Released  | Upgrade to QLI1.6-1.2.1. |
+| v0.0.3  | 2025-11-13   | Released  | Enable mipi, pmic thermal, lan phy led, ina260 hwmon, ethernet1. Add tpm utility, libraries for i-cap. |
+| v0.0.2  | 2025-09-08   | Released  | Enable ethernet0. |
+| v0.0.1  | 2025-09-03   | Released  | Initial release based on exec-q911 EVT. |
+</details>
 
 # Requirement
 - Recommend build machine:
@@ -47,10 +57,12 @@ This repository provide the bsp of platfroms which base on [Qualcomm yocto](http
         vim whiptail repo
     ```
 
-# Build Image & SDK from BSP
+# Build Image
 1. Get Qualcomm QLI source according to `Minor` in version.
     ```bash
-    repo init -u https://github.com/quic-yocto/qcom-manifest -b qcom-linux-scarthgap -m qcom-6.6.119-QLI.1.8-Ver.1.1_qim-product-sdk-2.3.1.xml
+    repo init -u https://github.com/quic-yocto/qcom-manifest \
+        -b qcom-linux-scarthgap \
+        -m qcom-6.6.119-QLI.1.8-Ver.1.1_qim-product-sdk-2.3.1.xml
     ```
 2. Pull BSP files.
     ```bash
@@ -96,30 +108,44 @@ This repository provide the bsp of platfroms which base on [Qualcomm yocto](http
 - Follow [this page](https://github.com/InnoIPA/iQ-Studio/blob/main/tutorials/starting-guides/flash-image/README.md).
 - Workflow are based on [tutorial](https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-254/flash_images.html) from Qualcomm.
 
+# Development
+- For more information about development, please refer to [DEVELOPMENT.md](doc/DEVELOPMENT.md).
 
 # FAQ
-- Fetch failed during bitbake building.
-  - Copy the fetch cmd & manually fetch or apply following cmd preventing git timeout because of poor connection.
-  ```bash
-  git config --global http.lowSpeedLimit 0
-  git config --global http.lowSpeedTime 999999
-  ```
-- Ubuntu 24.04 namespaces not usable issue.
-  - Error log after bitbake cmd.
-    ```
-    ERROR: User namespaces are not usable by BitBake, possibly due to AppArmor.
-    See https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions
-    ```
-  - Solution:
-    ```bash
-    # Fix temporarily
-    sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-    # Fix permanently
-    echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/60-apparmor-userns.conf
-    sudo sysctl --system
-    ```
-- Developer note:
-    - See [DEVELOPMENT.md](doc/DEVELOPMENT.md).
+<details>
+<summary><b>Fetch failed during bitbake building</b></summary>
+<br>
+
+**Issue：**
+Download failed during Bitbake build.
+
+**Solution：**
+Copy the fetch cmd & manually fetch or apply following cmd preventing git timeout because of poor connection.：
+```bash
+git config --global http.lowSpeedLimit 0
+git config --global http.lowSpeedTime 999999
+```
+</details>
+
+<details> <summary><b>Ubuntu 24.04 namespaces not usable issue</b></summary> <br>
+
+
+**Issue：**
+Error log after bitbake cmd.
+```
+ERROR: User namespaces are not usable by BitBake, possibly due to AppArmor.
+See https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions
+```
+
+**Solution：**
+```bash
+# Fix temporarily
+sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+# Fix permanently
+echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/60-apparmor-userns.conf
+sudo sysctl --system
+```
+</details>
 
 # Reference
 - https://github.com/qualcomm-linux/qcom-manifest

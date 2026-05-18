@@ -25,43 +25,41 @@
     ```
 4. Clean build and test functions with stesting(keep the report for github release).
 5. Test run [iqs-streampipe](https://github.com/InnoIPA/iQ-Studio/tree/main/benchmarks/iqs-streampipe) for checking soc internal functions.
-6. Copy images and `ostree_repo` to make following folder structure.
+6. Compress following files and compress to `tar.gz`, suggest using pigz for making process quicker.
+    - `images`
+    - `ostree_repo`
+    - `sdk`
+    - `sbom`
     ```bash
-    mkdir -p $version_folder
-    mkdir -p $version_folder/sdk
-    cd $version_folder
-    rsync -avPz $bsp_folder/build-qcom-wayland/tmp-glibc/deploy/images/exmp-q911/qcom-multimedia-image ./exmp-q911
-    rsync -avPz $bsp_folder/build-qcom-wayland/tmp-glibc/deploy/images/exmp-q911/ostree_repo ./exmp-q911/
-    rsync -avPz $bsp_folder/build-qcom-wayland/tmp-glibc/deploy/sdk ./sdk/
-    sync
+    cd <folder>
+    tar -cf - * | pigz -p "$(nproc)" >   <path>/<output>.tar.gz
     ```
+7. Generate md5sum.txt for all compressed files.
     ```bash
-    $version_folder
-    ├── exmp-q911
-    └── sdk
+    md5sum ./*.tar.gz > md5sum.txt
     ```
-7. Generate md5sum.txt for all files and compress.
-    ```bash
-    cd sdk
-    find ./* -type f -exec md5sum '{}' + > md5sum.txt
-    cd ../exmp-q911
-    find ./* -type f -exec md5sum '{}' + > md5sum.txt
-    cd ../
-    tar -cf - exmp-q911 | pigz -p $(nproc) > exmp-q911.tar.gz
-    tar -cf - sdk | pigz -p $(nproc) > sdk.tar.gz
-    md5sum ./* > md5sum.txt
-    ```
-8. Upload image & sdk to `R://`.
-9. Github release and upload stesting & iqs-streampipe test result.
+8. Upload compressed files to `S://`.
+9. Github release and:
+    - Upload test result from step 4 & 5.
     - Update [I/O Function Table](#io-function-table) in release note. 
-10.  Sync forked gitub and update tags, for example:
+10.  Sync forked gitub and update tags & branch if in need, for example:
         ```bash
         git remote add upstream https://github.com/aiotads/meta-iQ__confidential
         git fetch upstream --tags
         git push origin --tags
+
+        git fetch upstream
+
+        # if need to sync new branch
+        git checkout -b dev_exma upstream/dev_exma
+        git push origin dev_exma
+
+        # update main branch
+        git checkout scarthgap
+        git merge upstream/scarthgap
+        git push origin scarthgap
         ```
-11. Manually update main branch of forked github and release the latest tag.
-- Maybe jenkins these release flow in future.
+- Maybe jenkins or github action some of these flow in future.
 
 # Rules of meta-layer
 - Style & rule following [oelint-adv](https://marketplace.visualstudio.com/items?itemName=kweihmann.oelint-vscode).
@@ -121,10 +119,8 @@
 | JP_SPI_I2C1-I2C | 🟢     | Detect ||
 </details>
 
-<details>
-
 # SBOM
-- Files be find under following path:
+- Files could be find under following path after build:
     ```bash
     build-qcom-wayland/tmp-glibc/deploy/images/<machine>/*spdx*
     ```
