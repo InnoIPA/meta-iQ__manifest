@@ -13,19 +13,16 @@
 - [Todo](#todo)
 
 # Release flow
-1. Update README.md & CHANGELOG.md & version files: 
-    - `recipes-apps/inno-version/files/BSP-version`
-    - `recipes-bsp/base-files/files/issue`
-2. Commit then add tag and push to github.
-3. Build Image with `meta-iQ-extra__confidential`.
+1. Commit then add tag and push to github.
+2. Build Image with `meta-iQ-extra__confidential`.
     ```bash
     export EXTRALAYERS="meta-qcom-qim-product-sdk meta-innodisk-iq meta-iQ-extra__confidential" \
     MACHINE=${MACHINE} DISTRO=qcom-wayland QCOM_SELECTED_BSP=custom && \
     source setup-environment
     ```
-4. Clean build and test functions with stesting(keep the report for github release).
-5. Test run [iqs-streampipe](https://github.com/InnoIPA/iQ-Studio/tree/main/benchmarks/iqs-streampipe) for checking soc internal functions.
-6. Compress following files and compress to `tar.gz`, suggest using pigz for making process quicker.
+3. Clean build and test functions with stesting(keep the report for github release).
+4. Test run [iqs-streampipe](https://github.com/InnoIPA/iQ-Studio/tree/main/benchmarks/iqs-streampipe) for checking soc internal functions.
+5. Compress following files and compress to `tar.gz`, suggest using pigz for making process quicker.
     - `images`
     - `ostree_repo`
     - `sdk`
@@ -34,15 +31,15 @@
     cd <folder>
     tar -cf - * | pigz -p "$(nproc)" >   <path>/<output>.tar.gz
     ```
-7. Generate md5sum.txt for all compressed files.
+6. Generate md5sum.txt for all compressed files.
     ```bash
     md5sum ./*.tar.gz > md5sum.txt
     ```
-8. Upload compressed files to `S://`.
-9. Github release and:
+7. Upload compressed files to `S://`.
+8. Github release and:
     - Upload test result from step 4 & 5.
     - Update [I/O Function Table](#io-function-table) in release note. 
-10.  Sync forked gitub and update tags & branch if in need, for example:
+9.  Sync forked gitub and update tags & branch if in need, for example:
         ```bash
         git remote add upstream https://github.com/aiotads/meta-iQ__confidential
         git fetch upstream --tags
@@ -75,49 +72,8 @@
     | recipes-modules | external modules or kernel modification |
 
 # I/O Function Table
-- This section shows the I/O function table sample for release note.
-    - 🔵 : Working properly at previous version, should be okay but not verified yet.
-    - 🟢 : Verified at current version and working properly.
-    - 🟡 : Function works but unstable or have some quirk.
-    - 🔴 : Having some issues.
-<details>
-<summary>exmp-q911 I/O function table</summary>
-
-| Name            | Status | Verify | Description |
-|-----------------|--------|--------|-------------|
-| CN_GPIO1        | 🟢     | Z-scan ||
-| DP1             | 🟡     | Mannual | Unstable sometimes weston desktop not working. |
-| EDP_Panel       | 🟡     | Mannual | Unstable sometimes weston desktop not working. |
-| DP2             | 🟡     | Mannual | Unstable sometimes weston desktop not working. |
-| USB3_2_UP       | 🟢     | Detect ||
-| USB3_2_DOWN     | 🟢     | Detect ||
-| USB3_1_UP       | 🟢     | Detect ||
-| USB3_1_DOWN     | 🟢     | Detect ||
-| USBC_1          | 🟢     | Detect ||
-| USB2_M2E1       | 🟢     | Detect ||
-| USB2_M2B1       | 🟢     | Detect ||
-| CN_USB2_1       | 🟢     | Detect ||
-| LAN0            | 🟢     | Ping IP ||
-| LAN1            | 🟢     | Ping IP ||
-| PCIE_M2E1       | 🟢     | Link status ||
-| PCIE_M2M1       | 🟢     | Link status ||
-| SPI_TPM         | 🟢     | Detect ||
-| TPM_FUNC        | 🟢     | Utility ||
-| SOM_COM         | 🟢     | Loopback ||
-| CN_COM1         | 🟢     | Loopback ||
-| JP_SPI_I2C1-SPI | 🟢     | Loopback ||
-| FAN_CTL         | 🟢     | Mannual ||
-| AMP             | 🔴     | Mannual | snd card driver updated makes mclk not supply. |
-| AUDIO_JACK      | 🔴     | Mannual | snd card driver updated makes mclk not supply. |
-| MIPI_CAMERA     | 🟢     | Mannual ||
-| CAN+PCIECARD    | 🟢     | Loopback ||
-| RTC             | 🟢     | Detect ||
-| I2C_wm8904      | 🟢     | Detect ||
-| I2C_tca6408     | 🟢     | Detect ||
-| I2C_ina260      | 🟢     | Detect ||
-| I2C_SOM         | 🟢     | Detect ||
-| JP_SPI_I2C1-I2C | 🟢     | Detect ||
-</details>
+- Per-machine I/O function tables are maintained as independent files. Add a new `IO_FUNCTION_<machine>.md` under `doc/` when a new machine is supported.
+    - [IO_FUNCTION_exmp-q911.md](IO_FUNCTION_exmp-q911.md)
 
 # SBOM
 - Files could be find under following path after build:

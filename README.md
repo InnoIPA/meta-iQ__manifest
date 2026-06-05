@@ -25,13 +25,15 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 # Latest release 
 | [Version](doc/VERSION.md) | Date         | Status    | Description |
 |---------|--------------|-----------|-------------|
-| v2.3.1  | 2026-04-23   | Released  | Github action to InnoIPA. |
+| v2.3.3  | 2026-06-04   | Released  | Fix audio and rs232/422/485 function, support language zh. |
 
 <details>
 <summary>Release history</summary>
 
 | [Version](doc/VERSION.md) | Date         | Status    | Description |
 |---------|--------------|-----------|-------------|
+| v2.3.2  | 2026-05-18   | Released  | Fix wayland issue with multiple screen. |
+| v2.3.1  | 2026-04-23   | Released  | Github action to InnoIPA. |
 | v2.3.0  | 2026-04-08   | Released  | Upgrade to QLI1.8-1.1. |
 | v2.1.0  | 2026-03-12   | Released  | exmp-q911 DVT & some issue fixed. |
 | v1.1.0  | 2026-01-13   | Released  | New machine exma-q911 EVT & enable excc-q911 audio function. |
