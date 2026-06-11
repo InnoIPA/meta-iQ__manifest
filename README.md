@@ -70,11 +70,13 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
     ```bash
     repo sync
     ```
-3. Download this meta layer into BSP & check out to specific tag if in need.
+3. Clone this meta layer into the BSP's `layers` directory, and optionally check out a specific tag.
+    > [!NOTE]NOTICE
+    > This step expects the customer contact innodisk to obtain a snapshot of the meta layer. [meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest.git) is for viewing only.
     ```bash
     cd layers
     git clone <this-repository> meta-innodisk-iq
-    git checkout <tag>
+    git -C meta-innodisk-iq checkout <tag>   # optional
     cd ..
     ```
 4. Setup environment.
