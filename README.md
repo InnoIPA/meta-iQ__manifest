@@ -25,13 +25,14 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 # Latest release 
 | [Version](doc/VERSION.md) | Date         | Status    | Description |
 |---------|--------------|-----------|-------------|
-| v2.3.3  | 2026-06-04   | Released  | Fix audio and rs232/422/485 function, support language zh. |
+| v2.3.4  | 2026-07-31   | Released  | Feat kas, refine meta-layer, fix I/O issues, support sbom. |
 
 <details>
 <summary>Release history</summary>
 
 | [Version](doc/VERSION.md) | Date         | Status    | Description |
 |---------|--------------|-----------|-------------|
+| v2.3.3  | 2026-06-04   | Released  | Fix audio and rs232/422/485 function, support language zh. |
 | v2.3.2  | 2026-05-18   | Released  | Fix wayland issue with multiple screen. |
 | v2.3.1  | 2026-04-23   | Released  | Github action to InnoIPA. |
 | v2.3.0  | 2026-04-08   | Released  | Upgrade to QLI1.8-1.1. |
@@ -49,64 +50,63 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
   - RAM over 32GB
   - Ubuntu over 22.04
 - Utilities in need:
-    ```bash
-    sudo apt update
-    sudo apt install gawk wget git diffstat unzip texinfo gcc build-essential \
-        chrpath socat cpio python3 python3-pip python3-pexpect xz-utils \
-        debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa \
-        libsdl1.2-dev pylint xterm python3-subunit mesa-common-dev zstd \
-        liblz4-tool locales tar python-is-python3 file libxml-opml-simplegen-perl \
-        vim whiptail repo
-    ```
+  - kas 5.1
 
 # Build Image
-1. Get Qualcomm QLI source according to `Minor` in version.
-    ```bash
-    repo init -u https://github.com/quic-yocto/qcom-manifest \
-        -b qcom-linux-scarthgap \
-        -m qcom-6.6.119-QLI.1.8-Ver.1.1_qim-product-sdk-2.3.1.xml
-    ```
-2. Pull BSP files.
-    ```bash
-    repo sync
-    ```
-3. Clone this meta layer into the BSP's `layers` directory, and optionally check out a specific tag.
+1. Extract or download repository into directory which named `meta-innodisk-iq`.
     > [!NOTE]NOTICE
     > This step expects the customer contact innodisk to obtain a snapshot of the meta layer. [meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest.git) is for viewing only.
+    - If you received a zip file, unzip it and move the extracted folder into `layers`, renaming it to `meta-innodisk-iq` if needed.
+        ```bash
+        unzip meta-innodisk-iq.zip
+        mv meta-innodisk-iq layers/meta-innodisk-iq
+        ```
+    - Or, if you have repository access, clone it and optionally check out a specific tag.
+        ```bash
+        cd layers
+        git clone <this-repository> meta-innodisk-iq
+        git -C meta-innodisk-iq checkout <tag>   # optional
+        cd ..
+        ```
+2. Build image by using kas, for example target machine is `exmp-q911`.
+    > [!NOTE]NOTICE
+    [kas](https://github.com/siemens/kas) encapsulates the BitBake build process within a container, minimizing host environment differences and simplifying Yocto project management.
+
+    Swap `kas/exmp-q911.yml` to target another machine from the table above.
     ```bash
-    cd layers
-    git clone <this-repository> meta-innodisk-iq
-    git -C meta-innodisk-iq checkout <tag>   # optional
-    cd ..
+    # Container build image
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml
     ```
-4. Setup environment.
-    - Currently support `MACHINE`: `exmp-q911`, `qcs9075-iq-9075-evk`
-    - General build:
-        ```bash
-        export EXTRALAYERS="meta-qcom-qim-product-sdk meta-innodisk-iq" \
-        MACHINE=exmp-q911 DISTRO=qcom-wayland QCOM_SELECTED_BSP=custom && \
-        source setup-environment
-        ```
-    - Build with firmware source:
-        ```bash
-        export EXTRALAYERS="meta-qcom-qim-product-sdk meta-qcom-extras meta-innodisk-iq" \
-        CUST_ID=213195 FWZIP_PATH=<path> MACHINE=exmp-q911 DISTRO=qcom-wayland QCOM_SELECTED_BSP=custom && \
-        source setup-environment
-        ```
-5. Build 
-    - Image:
-        ```bash
-        bitbake qcom-multimedia-image
-        ```
-    - SDK:
-        ```bash
-        bitbake -c do_populate_sdk qcom-multimedia-image
-        ```
-- The image and sdk result will be under following path.
     ```bash
-    ./tmp-glibc/deploy/images/<MACHINE>/qcom-multimedia-image
-    ./tmp-glibc/deploy/sdk
+    # Container build image and generate SBOM (SPDX + CycloneDX)
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml:meta-innodisk-iq/kas/sbom.yml
     ```
+    ```bash
+    # Container build sdk
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml \
+        -c populate_sdk
+    ```
+    ```bash
+    # Open container with console
+    kas-container shell meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml
+    ```
+    ```bash
+    # optional : for shared download & sstate-cache folder
+    export DL_DIR="../downloads"
+    export SSTATE_DIR="../sstate-cache"
+    ```
+    ```bash
+    # optional : with less cpu used
+    kas-container --runtime-args "--cpus=8" build
+    ```
+
+- Results under `tmp-glibc/deploy/`:
+    | Results | Path |
+    |--------|------|
+    | Image | `deploy/images/<MACHINE>/qcom-multimedia-image` |
+    | SDK | `deploy/sdk` |
+    | SBOM (SPDX 2.2) | `deploy/spdx/2.2/` |
+    | SBOM (CycloneDX) | `deploy/cyclonedx-export/<image-recipe>/` |
 
 # Flash Image
 - Follow [this page](https://github.com/InnoIPA/iQ-Studio/blob/main/tutorials/starting-guides/flash-image/README.md).
@@ -153,5 +153,4 @@ sudo sysctl --system
 
 # Reference
 - https://github.com/qualcomm-linux/qcom-manifest
-- https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-115/qualcomm-linux-docs-home.html
 - https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-254/build_landing_page.html

@@ -10,37 +10,36 @@
 - 🟡 : Function works but unstable or have some quirk.
 - 🔴 : Having some issues.
 
-| Name            | Status | Verify | Description |
+| Interface       | Status | Verify | Description |
 |-----------------|--------|--------|-------------|
-| CN_GPIO1        | 🔵     | Z-scan ||
-| DP1             | 🔵     | Mannual ||
-| EDP_Panel       | 🔵     | Mannual ||
-| DP2             | 🔵     | Mannual ||
-| USB3_2_UP       | 🔵     | Detect ||
-| USB3_2_DOWN     | 🔵     | Detect ||
-| USB3_1_UP       | 🔵     | Detect ||
-| USB3_1_DOWN     | 🔵     | Detect ||
-| USBC_1          | 🔵     | Detect ||
-| USB2_M2E1       | 🔵     | Detect ||
-| USB2_M2B1       | 🔵     | Detect ||
-| CN_USB2_1       | 🔵     | Detect ||
-| LAN0            | 🔵     | Ping IP ||
-| LAN1            | 🔵     | Ping IP ||
-| PCIE_M2E1       | 🔵     | Link status ||
-| PCIE_M2M1       | 🔵     | Link status ||
-| SPI_TPM         | 🔵     | Detect ||
-| TPM_FUNC        | 🔵     | Utility ||
-| SOM_COM         | 🔵     | Loopback ||
-| CN_COM1         | 🔵     | Loopback ||
-| JP_SPI_I2C1-SPI | 🔵     | Loopback ||
-| FAN_CTL         | 🔵     | Mannual ||
 | AMP             | 🟢     | Mannual ||
 | AUDIO_JACK      | 🟢     | Mannual ||
-| MIPI_CAMERA     | 🟢     | Mannual ||
-| CAN+PCIECARD    | 🔵     | Loopback ||
-| RTC             | 🔵     | Detect ||
-| I2C_wm8904      | 🔵     | Detect ||
-| I2C_tca6408     | 🔵     | Detect ||
-| I2C_ina260      | 🔵     | Detect ||
-| I2C_SOM         | 🔵     | Detect ||
-| JP_SPI_I2C1-I2C | 🔵     | Detect ||
+| CAN+PCIECARD    | 🟢     | stesting with jigs ||
+| CN_COM1         | 🟢     | stesting with jigs ||
+| CN_GPIO1        | 🟢     | stesting with jigs ||
+| CN_USB2_1       | 🟢     | stesting with jigs ||
+| DP1             | 🟢     | Mannual ||
+| DP2             | 🟢     | Mannual ||
+| EDP_Panel       | 🟢     | Mannual ||
+| FAN_CTL         | 🟢     | stesting with jigs ||
+| I2C_ina260      | 🟢     | stesting with jigs ||
+| I2C_SOM         | 🟢     | stesting with jigs ||
+| I2C_tca6408     | 🟢     | stesting with jigs ||
+| I2C_wm8904      | 🟢     | stesting with jigs ||
+| JP_SPI_I2C1-I2C | 🟢     | stesting with jigs ||
+| JP_SPI_I2C1-SPI | 🟢     | stesting with jigs ||
+| LAN0            | 🟢     | stesting with jigs ||
+| LAN1            | 🟢     | stesting with jigs ||
+| MIPI_CAMERA     | 🟢     | stesting with jigs ||
+| PCIE_M2E1       | 🟢     | stesting with jigs ||
+| PCIE_M2M1       | 🟢     | stesting with jigs ||
+| RTC             | 🟢     | stesting with jigs ||
+| SOM_COM         | 🟢     | stesting with jigs ||
+| SPI_TPM         | 🟢     | stesting with jigs ||
+| USB2_M2B1       | 🟢     | stesting with jigs ||
+| USB2_M2E1       | 🟢     | stesting with jigs ||
+| USB3_1_DOWN     | 🟢     | stesting with jigs ||
+| USB3_1_UP       | 🟢     | stesting with jigs ||
+| USB3_2_DOWN     | 🟢     | stesting with jigs ||
+| USB3_2_UP       | 🟢     | stesting with jigs ||
+| USBC_1          | 🟢     | stesting with jigs ||
