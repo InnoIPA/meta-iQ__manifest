@@ -23,15 +23,16 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 | `qcs9075-iq-9075-evk` | RB8 / QCS9075 EVK | Reference evaluation baseline |
 
 # Latest release 
-| [Version](doc/VERSION.md) | Date         | Status    | Description |
+| [Version](doc/VERSION.md) | Date | Status | Description |
 |---------|--------------|-----------|-------------|
-| v2.3.4  | 2026-07-31   | Released  | Feat kas, refine meta-layer, fix I/O issues, support sbom. |
+| v2.3.5  | 2026-08-21   | Released  | Qcom fw for IQ9 with PMIC PWR hard-reset, capsule OTA flow, exmp eth0/eth1 naming fix. |
 
 <details>
 <summary>Release history</summary>
 
-| [Version](doc/VERSION.md) | Date         | Status    | Description |
+| [Version](doc/VERSION.md) | Date | Status | Description |
 |---------|--------------|-----------|-------------|
+| v2.3.4  | 2026-07-31   | Released  | Feat kas, refine meta-layer, fix I/O issues, support sbom. |
 | v2.3.3  | 2026-06-04   | Released  | Fix audio and rs232/422/485 function, support language zh. |
 | v2.3.2  | 2026-05-18   | Released  | Fix wayland issue with multiple screen. |
 | v2.3.1  | 2026-04-23   | Released  | Github action to InnoIPA. |
@@ -121,10 +122,10 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 <br>
 
 **Issue：**
-Download failed during Bitbake build.
+Download failed because about internet issue or poor connection with download server.
 
 **Solution：**
-Copy the fetch cmd & manually fetch or apply following cmd preventing git timeout because of poor connection.：
+Copy the fetch cmd & manually fetch or apply following cmd preventing git timeout. :
 ```bash
 git config --global http.lowSpeedLimit 0
 git config --global http.lowSpeedTime 999999
@@ -135,7 +136,7 @@ git config --global http.lowSpeedTime 999999
 
 
 **Issue：**
-Error log after bitbake cmd.
+Error log after bitbake/kas-container cmd.
 ```
 ERROR: User namespaces are not usable by BitBake, possibly due to AppArmor.
 See https://discourse.ubuntu.com/t/ubuntu-24-04-lts-noble-numbat-release-notes/39890#unprivileged-user-namespace-restrictions
@@ -149,6 +150,21 @@ sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/60-apparmor-userns.conf
 sudo sysctl --system
 ```
+</details>
+
+<details> <summary><b>kas-container failed that yml file not found.</b></summary> <br>
+
+
+**Issue：**
+All meta-layers need git management for kas-container, this issue of snapshot.zip will be fixed since 2.3.4.
+
+**Solution：**
+- Make sure this meta-layer have git management if not exist use following command.
+  ```bash
+  cd meta-innodisk-iq
+  git init
+  ```
+- Clean all exist meta-layers then run the kas-container again.
 </details>
 
 # Reference

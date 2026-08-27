@@ -41,6 +41,19 @@
 
 # Release Notes
 
+## v2.3.5 - 2026-08-21
+- feat: qcom firmware for IQ9 (xbl.elf/xbl_config.elf/pm.dtsi) with PMIC PWR hard-reset 2ms workaround, for both r1.0_00114.0 and r1.0_00120.0 baselines
+- feat: capsule package flow, default xbl_config.elf pre-patched for further OTA
+- feat: innodisk customized desktop background on weston
+- feat: camera device-tree patch for exma-q911-js02
+- fix: eth0/eth1 naming now follows QLI2.0 convention, renamed to end0/end1
+- fix: ethernet sequence issue causing retry-prevention to trigger incorrectly
+- fix: remove unused exmp-ethup service, add sleep to exmp-eth to avoid race
+- fix: required argument for packaging capsule.cap
+- chore: remove exma-q911 machine, now maintained in its own repository
+- chore: remove unused files
+- doc: reset I/O function table to pending-verification for exmp-q911
+
 ## v2.3.4 - 2026-08-03
 - feat: b2b FW for reset function, ensure exmp-q911 PMIC LAN reset pin is 1.8v to 1.9v
 - feat: default i2s mclk function on exma-q911, audio nodes added to exma-q911
