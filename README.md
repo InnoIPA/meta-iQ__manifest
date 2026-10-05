@@ -18,20 +18,24 @@
 This repository provide the bsp for following platfroms which base on [Qualcomm yocto](https://github.com/quic-yocto/qcom-manifest) :
 
 | Machine | Platform Description | Current Position |
-|---|---|---|
+|---------|----------------------|------------------|
 | `exmp-q911` | QCS9075 COM-HPC Mini module | Main DVT platform baseline |
-| `qcs9075-iq-9075-evk` | RB8 / QCS9075 EVK | Reference evaluation baseline |
+| `iq-9075-evk` | RB8 / QCS9075 EVK | Reference evaluation baseline |
+| `exmp-q801` | QCS8275 COM-HPC Mini module | Main EVT platform baseline |
+| `iq-8275-evk` | RB4 / QCS8275 EVK | Reference evaluation baseline |
 
 # Latest release 
 | [Version](doc/VERSION.md) | Date | Status | Description |
 |---------|--------------|-----------|-------------|
-| v2.3.5  | 2026-08-21   | Released  | Qcom fw for IQ9 with PMIC PWR hard-reset, capsule OTA flow, exmp eth0/eth1 naming fix. |
+| v2.5.0  | 2026-09-23   | Released  | Upgrade to QLI2.0, new exmp-q801 (QCS8275) EVT platform baseline. |
 
 <details>
 <summary>Release history</summary>
 
 | [Version](doc/VERSION.md) | Date | Status | Description |
 |---------|--------------|-----------|-------------|
+| v2.5.0  | 2026-09-23   | Released  | Upgrade to QLI2.0, new exmp-q801 (QCS8275) EVT platform baseline. |
+| v2.3.5  | 2026-08-21   | Released  | Qcom fw for IQ9 with PMIC PWR hard-reset, capsule OTA flow, exmp eth0/eth1 naming fix. |
 | v2.3.4  | 2026-07-31   | Released  | Feat kas, refine meta-layer, fix I/O issues, support sbom. |
 | v2.3.3  | 2026-06-04   | Released  | Fix audio and rs232/422/485 function, support language zh. |
 | v2.3.2  | 2026-05-18   | Released  | Fix wayland issue with multiple screen. |
@@ -46,10 +50,10 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 </details>
 
 # Requirement
-- Recommend build machine:
-  - CPU x86 over 10 threads
+- Build machine:
+  - CPU over intel 10th
   - RAM over 32GB
-  - Ubuntu over 22.04
+  - Ubuntu over 24.04
 - Utilities in need:
   - kas 5.1
 
@@ -64,10 +68,8 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
         ```
     - Or, if you have repository access, clone it and optionally check out a specific tag.
         ```bash
-        cd layers
         git clone <this-repository> meta-innodisk-iq
         git -C meta-innodisk-iq checkout <tag>   # optional
-        cd ..
         ```
 2. Build image by using kas, for example target machine is `exmp-q911`.
     > [!NOTE]NOTICE
@@ -76,20 +78,20 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
     Swap `kas/exmp-q911.yml` to target another machine from the table above.
     ```bash
     # Container build image
-    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml
     ```
     ```bash
     # Container build image and generate SBOM (SPDX + CycloneDX)
-    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml:meta-innodisk-iq/kas/sbom.yml
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml:meta-innodisk-iq/kas/sbom.yml
     ```
     ```bash
     # Container build sdk
-    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml \
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml \
         -c populate_sdk
     ```
     ```bash
     # Open container with console
-    kas-container shell meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro.yml
+    kas-container shell meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml
     ```
     ```bash
     # optional : for shared download & sstate-cache folder
@@ -97,11 +99,11 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
     export SSTATE_DIR="../sstate-cache"
     ```
     ```bash
-    # optional : with less cpu used
-    kas-container --runtime-args "--cpus=8" build
+    # optional : build with less ram preventing system crash/hang
+    kas-container --runtime-args "--memory=28g" build
     ```
 
-- Results under `tmp-glibc/deploy/`:
+- Results under `tmp/deploy/`:
     | Results | Path |
     |--------|------|
     | Image | `deploy/images/<MACHINE>/qcom-multimedia-image` |
@@ -115,6 +117,7 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 
 # Development
 - For more information about development, please refer to [DEVELOPMENT.md](doc/DEVELOPMENT.md).
+- For a design-change review (what this layer adds on top of the Qualcomm baseline, and why), refer to [DESIGN_CHANGES.md](doc/DESIGN_CHANGES.md).
 
 # FAQ
 <details>
@@ -130,6 +133,30 @@ Copy the fetch cmd & manually fetch or apply following cmd preventing git timeou
 git config --global http.lowSpeedLimit 0
 git config --global http.lowSpeedTime 999999
 ```
+</details>
+
+<details>
+<summary><b>do_fetch fails with "Unable to find revision ... even from upstream"</b></summary>
+<br>
+
+**Issue：**
+`do_fetch` fails for a recipe (e.g. `asciidoc-native`, `tensorflow-lite`/XNNPACK, `librdkafka`) even though the pinned `SRCREV` is a valid, reachable commit upstream:
+```
+ERROR: asciidoc-native-10.2.1-r0 do_fetch: Fetcher failure: Unable to find revision 21e33efe96ba9a51d99d1150691dae750afd6ed1 in branch main even from upstream
+ERROR: asciidoc-native-10.2.1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'git://github.com/asciidoc/asciidoc-py;protocol=https;branch=main')
+```
+
+**Cause：**
+When bitbake creates a brand-new bare git mirror under `build/downloads/git2/`, the mirror's `HEAD` can end up pointing at the syntactically-invalid ref `refs/heads/.invalid` instead of a real branch. Bitbake verifies a pinned `SRCREV` with `git branch --contains <rev> --list <branch>`, which requires resolving `HEAD` — with `HEAD` broken this fails with `fatal: failed to resolve HEAD as a valid ref`, and bitbake misreports the (already fetched) revision as missing.
+
+**Solution：**
+Point the affected mirror's `HEAD` at its real default branch (`main`/`master`), then retry the build:
+```bash
+cd build/downloads/git2
+cat github.com.<org>.<repo>/HEAD          # confirm it shows "ref: refs/heads/.invalid"
+git --git-dir=github.com.<org>.<repo> symbolic-ref HEAD refs/heads/<main-or-master>
+```
+This only needs to be done once per affected mirror — once `HEAD` is fixed it is not reset by subsequent fetches.
 </details>
 
 <details> <summary><b>Ubuntu 24.04 namespaces not usable issue</b></summary> <br>
@@ -149,6 +176,24 @@ sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 # Fix permanently
 echo "kernel.apparmor_restrict_unprivileged_userns = 0" | sudo tee /etc/sysctl.d/60-apparmor-userns.conf
 sudo sysctl --system
+```
+</details>
+
+<details> <summary><b>Ubuntu 26.04 USB udev rules for image flashing</b></summary> <br>
+
+**Issue：**
+Naming of daemon changed in Ubuntu 26.04 OS.
+
+**Solution：**
+Create `/etc/udev/rules.d/51-qcom-usb.rules` (if it does not already exist) with the following content:
+```
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="05c6", ATTRS{idProduct}=="9008", MODE="0666", GROUP="plugdev"
+```
+On Ubuntu 26.04 the udev daemon's unit is `systemd-udevd`, not `udev`. Reload the rules instead of restarting the daemon:
+```bash
+sudo systemctl restart systemd-udevd
+
+sudo udevadm control --reload-rules && sudo udevadm trigger
 ```
 </details>
 

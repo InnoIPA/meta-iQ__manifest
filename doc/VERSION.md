@@ -13,11 +13,10 @@
 # Overview
 - This page shows the version rules.
 - `Major`.`Minor`.`Patch`
-- `Patch` will reset to 0 if Major or Minor changed.
 
 # Major
 - Related to hardware update.
-- Since 2, only DVT/PVT release will count `Major`, EVT pre-release only count in `Patch`.
+- Since from 2, only DVT release will count `Major`, EVT pre-release only count in `Patch`.
 
 | Value | Description |
 |-------|-------------|
@@ -27,6 +26,7 @@
 
 # Minor
 - Related to QLI version.
+- Keep the number for jumped version in case having customer request.
 
 | Value | Description |
 |-------|-------------|
@@ -34,12 +34,46 @@
 | 1     | QLI1.6      |
 | 2     | QLI1.7      |
 | 3     | QLI1.8      |
+| 4     | QLI1.9      |
+| 5     | QLI2.0      |
 
 # Patch
 - Bug fix or feature update.
 - Plus one for each udpate.
+- Reset to 0 if Major or Minor update.
+
 
 # Release Notes
+
+## v2.5.0 - 2026-09-23
+- feat: exmp-q801 (QCS8275, excc-q801 carrier) EVT platform baseline, base files and device-tree
+- feat: tensorflow-lite libraries and tf-lite support in packagegroup-innodisk
+- feat: libqcperf for remote CPU/GPU/NPU usage monitoring
+- feat: tpm kernel config
+- feat: customized firmware files, QCOM_CDT_FIRMWARE moved to customized machine
+- feat: iproute2 and linuxptp for TSN
+- feat: audio patches and acdb/backend config to enable mclk on audioreach driver, aligned with QLI1.8
+- feat: dummy SPI EP device on spi16
+- feat: default enable adbd function
+- feat: customized psplash logo, prevent serial hijack screen from weston
+- fix: ethernet0 aliases and controller 23000000 sequence
+- fix: hexagon-dsp-binaries pinned to 20260622 (older 20260519 caused fw version error)
+- fix: flatbuffers issue building tf-lite
+- fix: SRC_URI logic
+- fix: exma-q911 build
+- fix: reset polarity of ethernet phy
+- fix: preventing tlmm gpio45/gpio92 conflict on exmp-q801
+- fix: camera device-tree patches carried over from QLI1.8, unused device-tree in monaco-evk commented out
+- fix: latest driver support for speed switch, merged mac/led handling into inno-daemon
+- fix: meta-cyclonedx dependency updated to wrynose
+- chore: only support qcom-multimedia-proprietary-image
+- chore: rename device-tree folders, refine ina260/exma-q911 device-tree for QLI2.0
+- chore: git info as global variable for auto version
+- chore: refine kas yml files (path fix, lock file for fixed meta-layers), ci soft-link to files/folders
+- chore: release snapshot as password-protected zip with refined naming
+- chore: refine jenkins flow and documentation
+- doc: update README.md, FUNCTION status, and kas yaml file names
+- doc: refine option build and release build kas command line
 
 ## v2.3.5 - 2026-08-21
 - feat: qcom firmware for IQ9 (xbl.elf/xbl_config.elf/pm.dtsi) with PMIC PWR hard-reset 2ms workaround, for both r1.0_00114.0 and r1.0_00120.0 baselines
@@ -52,6 +86,7 @@
 - fix: required argument for packaging capsule.cap
 - chore: remove exma-q911 machine, now maintained in its own repository
 - chore: remove unused files
+- doc: add DESIGN_CHANGES.md for 2nd-development partner design-change review
 - doc: reset I/O function table to pending-verification for exmp-q911
 
 ## v2.3.4 - 2026-08-03

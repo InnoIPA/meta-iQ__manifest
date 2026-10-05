@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>stesting report - EXCC-Q911</title>
+<style>
+    :root {
+        --bg: #f6f7f9; --card-bg: #ffffff; --text: #1c2128; --muted: #57606a;
+        --border: #d0d7de; --pass: #1a7f37; --pass-bg: #dafbe1;
+        --fail: #cf222e; --fail-bg: #ffebe9; --manual: #9a6700; --manual-bg: #fff8c5;
+        --skip: #57606a; --skip-bg: #eaeef2;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0; padding: 2rem; background: var(--bg); color: var(--text);
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-size: 14px; line-height: 1.5;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; }
+    header { margin-bottom: 1.5rem; }
+    h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+    .subtitle { color: var(--muted); margin-bottom: 1rem; }
+    .summary {
+        display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .stat {
+        background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
+        padding: 0.75rem 1.25rem; min-width: 110px;
+    }
+    .stat .num { font-size: 1.5rem; font-weight: 700; }
+    .stat .lbl { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .card {
+        background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
+        padding: 1rem 1.25rem; margin-bottom: 1rem;
+    }
+    .card h2 { font-size: 1.05rem; margin: 0 0 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    thead th { color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 2px solid var(--border); }
+    tbody tr:last-child td { border-bottom: none; }
+    .casename { font-weight: 600; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.85rem; width: 34%; }
+    .desc { font-weight: 400; font-family: inherit; color: var(--muted); font-size: 0.8rem; margin-top: 0.35rem; }
+    .result-cell { width: 110px; }
+    .code { width: 60px; color: var(--muted); }
+    .detail { color: var(--muted); font-size: 0.85rem; white-space: pre-wrap; word-break: break-word; }
+    .badge {
+        display: inline-block; padding: 0.15rem 0.55rem; border-radius: 999px;
+        font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em;
+    }
+    .badge.pass { color: var(--pass); background: var(--pass-bg); }
+    .badge.fail { color: var(--fail); background: var(--fail-bg); }
+    .badge.manual { color: var(--manual); background: var(--manual-bg); }
+    .badge.skip { color: var(--skip); background: var(--skip-bg); }
+    tr.fail td.casename { color: var(--fail); }
+    .meta { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .meta th { text-align: left; color: var(--muted); font-weight: 600; padding: 0.25rem 1rem 0.25rem 0; white-space: nowrap; }
+    .meta td { padding: 0.25rem 0; }
+    .known-issues h3 { font-size: 1rem; margin: 1rem 0 0.4rem; }
+    .known-issues h3:first-child { margin-top: 0; }
+    .known-issues h4, .known-issues h5, .known-issues h6 { margin: 0.8rem 0 0.3rem; }
+    .known-issues p { margin: 0.4rem 0; }
+    .known-issues ul, .known-issues ol { margin: 0.4rem 0; padding-left: 1.4rem; }
+    .known-issues li { margin: 0.15rem 0; }
+    .known-issues code { background: var(--skip-bg); border-radius: 4px; padding: 0.1rem 0.3rem; font-size: 0.85em; }
+    footer { color: var(--muted); font-size: 0.8rem; margin-top: 2rem; text-align: center; }
+    @media print {
+        body { background: #fff; padding: 0; }
+        .card { break-inside: avoid; border: 1px solid #ccc; }
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <h1>stesting Test Report <span class="badge pass">PASS</span></h1>
+        <div class="subtitle">Board: EXCC-Q911 &middot; Tested: 2026/09/23, 15:40:08</div>
+        <table class="meta"><tr><th>BOARDNAME</th><td>EXCC-Q911</td></tr><tr><th>TESTDATE</th><td>2026/09/23, 15:40:08</td></tr><tr><th>TESTMODE</th><td>auto</td></tr><tr><th>DNA</th><td>321307417</td></tr><tr><th>VERSION</th><td></td></tr><tr><th>COMPILETIME</th><td>May 30 2025,00:42:35</td></tr></table>
+    </header>
+
+    <div class="summary">
+        <div class="stat"><div class="num">35</div><div class="lbl">Total</div></div>
+        <div class="stat"><div class="num" style="color:var(--pass)">29</div><div class="lbl">Pass</div></div>
+        <div class="stat"><div class="num" style="color:var(--fail)">0</div><div class="lbl">Fail</div></div>
+        <div class="stat"><div class="num" style="color:var(--manual)">6</div><div class="lbl">Manual</div></div>
+        <div class="stat"><div class="num" style="color:var(--skip)">0</div><div class="lbl">Skip</div></div>
+    </div>
+
+    
+        <section class="card">
+            <h2>DISPLAY <span class="badge pass">3 cases</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="manual">
+                <td class="casename">DP1<div class='desc'><b>How tested:</b> 1st DP connector on the 22000000 card (card0-DP-1)</div><div class='desc'><b>Makes it PASS:</b> Screen shows a proper picture -&gt; OP presses PASS in the GUI (returns 253). If MANUAL_TEST is removed, the automatic check is the common mechanism above</div></td>
+                <td class="result-cell"><span class="badge manual">MANUAL</span></td>
+                <td class="code">253</td>
+                <td class="detail">OP view the screen to check if PASS/FAIL and click GUI app</td>
+            </tr>
+            <tr class="manual">
+                <td class="casename">EDP_Panel<div class='desc'><b>How tested:</b> 2nd DP connector on the 22000000 card (card0-DP-2), driven through the eDP PHY</div><div class='desc'><b>Makes it PASS:</b> Panel shows a proper picture -&gt; 253</div></td>
+                <td class="result-cell"><span class="badge manual">MANUAL</span></td>
+                <td class="code">253</td>
+                <td class="detail">OP view the screen to check if PASS/FAIL and click GUI app</td>
+            </tr>
+            <tr class="manual">
+                <td class="casename">DP2<div class='desc'><b>How tested:</b> 1st DP connector on the ae00000 card (card1-DP-3)</div><div class='desc'><b>Makes it PASS:</b> Screen shows a proper picture -&gt; 253</div></td>
+                <td class="result-cell"><span class="badge manual">MANUAL</span></td>
+                <td class="code">253</td>
+                <td class="detail">OP view the screen to check if PASS/FAIL and click GUI app</td>
+            </tr></tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>USB <span class="badge pass">8 cases</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="pass">
+                <td class="casename">USB3_3<div class='desc'><b>How tested:</b> HCD 0 (a800000) hub port 1; matches platform-xhci-hcd.0.auto-usbv2-0:1.1</div><div class='desc'><b>Makes it PASS:</b> The port enumerates at least at HS -&gt; 0. Name says USB3 but the PATH is usbv2, so SS never being trained still PASSes</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">USB3_2-2<div class='desc'><b>How tested:</b> HCD N (a400000) hub port 2; matches platform-xhci-hcd.N.auto-usbv2-0:1.2</div><div class='desc'><b>Makes it PASS:</b> Same, HS enumeration only</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">USB3_2-1<div class='desc'><b>How tested:</b> HCD N (a400000) hub port 1; matches platform-xhci-hcd.N.auto-usbv2-0:1.1</div><div class='desc'><b>Makes it PASS:</b> Same</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">USB3_1-2<div class='desc'><b>How tested:</b> HCD 0 (a800000) SS hub port 3; matches platform-xhci-hcd.0.auto-usbv3-0:1.3</div><div class='desc'><b>Makes it PASS:</b> Requires SS enumeration -&gt; 0; an HS-only link falls onto the usbv2 path and returns 3</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">USB3_1-1<div class='desc'><b>How tested:</b> HCD 0 (a800000) SS hub port 2; matches platform-xhci-hcd.0.auto-usbv3-0:1.2</div><div class='desc'><b>Makes it PASS:</b> Same, SS enumeration -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">USB2_M2E1<div class='desc'><b>How tested:</b> M.2 E-key slot&#x27;s USB2 pair (WiFi/BT module); matches platform-xhci-hcd.N.auto-usbv2-0:1.3</div><div class='desc'><b>Makes it PASS:</b> E-key card plugged in and enumerates at HS -&gt; 0. The PCIe half of the same slot is #16 PCIE_M2E1</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">USB2_M2B1<div class='desc'><b>How tested:</b> M.2 B-key (4G/5G module); matches platform-xhci-hcd.0.auto-usbv3-0:1.4</div><div class='desc'><b>Makes it PASS:</b> Module enumerates at SS -&gt; 0. Whether the SIM can be read is #24 BKEY_SIM</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">CN_USB2_1<div class='desc'><b>How tested:</b> On-board USB2 wafer connector; matches platform-xhci-hcd.N.auto-usbv2-0:1.4</div><div class='desc'><b>Makes it PASS:</b> Device plugged in and enumerates at HS -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr></tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>ETH <span class="badge pass">2 cases</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="pass">
+                <td class="casename">LAN0<div class='desc'><b>How tested:</b> SoC-integrated EMAC (23000000.ethernet, driver qcom-ethqos, not PCIe)</div><div class='desc'><b>Makes it PASS:</b> eth0 has IPv4+MAC and 3/3 self-pings return -&gt; 0; no IPv4 -&gt; 3</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">f8:01:23:45:67:89</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">LAN1<div class='desc'><b>How tested:</b> Same, 23040000.ethernet</div><div class='desc'><b>Makes it PASS:</b> Same</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr></tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>PCIE <span class="badge pass">2 cases</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="pass">
+                <td class="casename">PCIE_M2E1<div class='desc'><b>How tested:</b> M.2 E-key slot (Intel AX210 as measured), 0000:01:00.0</div><div class='desc'><b>Makes it PASS:</b> Enumeration only (no SPEED/WIDTH, so swapping the module can&#x27;t false-FAIL). A PASS does not mean WiFi works — it only proves PCIe reaches the card</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">Link status : Speed 2.5GT/s, Width x1</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">PCIE_M2M1<div class='desc'><b>How tested:</b> M.2 M-key SSD (fixture: Innodisk 4TG2-P), 0001:01:00.0, sits directly under the domain1 root port (no switch in between)</div><div class='desc'><b>Makes it PASS:</b> &gt;= 16GT/s x4 -&gt; 0. A sudden code 3 first check the BSP iommu-map patch; if that&#x27;s fine, confirm the card is seated</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">Link status : Speed 16GT/s, Width x4</td>
+            </tr></tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>OTHERS <span class="badge pass">14 cases</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="pass">
+                <td class="casename">SPI_TPM<div class='desc'><b>How tested:</b> [ -e /dev/tpm0 ] (SPI TPM 2.0, a80000.spi-&gt;spi17.0) — node existence only</div><div class='desc'><b>Makes it PASS:</b> /dev/tpm0 exists -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">TPM_FUNC<div class='desc'><b>How tested:</b> tpm2_getrandom 4 &gt; /dev/null — actually issues a TPM2 command for random bytes</div><div class='desc'><b>Makes it PASS:</b> Command succeeds -&gt; 0. After repeated hard power-cycles the TPM can enter DA lockout (0x921); clear it with tpm2_dictionarylockout --clear-lockout</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">SOM_COM<div class='desc'><b>How tested:</b> /dev/ttyHS1 loopback: stty 115200 raw -echo -&gt; background timeout 1 cat -&gt; echo test -&gt; compare the read-back</div><div class='desc'><b>Makes it PASS:</b> Reads back test within 1s -&gt; 0; otherwise 3 (this port&#x27;s TX-RX must be shorted)</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">CN_COM1<div class='desc'><b>How tested:</b> Same, on /dev/ttyHS2</div><div class='desc'><b>Makes it PASS:</b> Same, reads back test -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">UART_DEBUG<div class='desc'><b>How tested:</b> uart_debug_test.sh: stops serial-getty@ttyMSM0 and silences printk, writes innodisk and reads it back (a trap always restores getty/printk)</div><div class='desc'><b>Makes it PASS:</b> Reads back innodisk within 1s -&gt; 0. Prereq: debug UART TX-RX shorted</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">JP_SPI_I2C1-SPI<div class='desc'><b>How tested:</b> spidev_test -D /dev/spidev16.0 -v -p &quot;HelloSPI&quot; -s 330000, JP_SPI_I2C1 jumper set to SPI, MOSI&lt;-&gt;MISO shorted</div><div class='desc'><b>Makes it PASS:</b> `\</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">FAN_CTL<div class='desc'><b>How tested:</b> fan_test.sh: stops inno-fan.service (it rewrites pwm1 every 5s otherwise) -&gt; writes pwm1=255 -&gt; reads fan1_input every 0.5s for up to 6s; a trap always restores the pwm value and the service</div><div class='desc'><b>Makes it PASS:</b> Speed &gt;= 3500 rpm and &lt;= 30000 rpm -&gt; 0 (this DUT measured ~5294-5672 rpm at full speed). Timeout or pwm1 not writable -&gt; 3. Prereq: the 4-pin fan needs both PWM and TACH connected</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="manual">
+                <td class="casename">AMP<div class='desc'><b>How tested:</b> audio_loop_test.sh: starts a fully detached background beep loop on the wm8904 Line Out (once per second), shared with #25</div><div class='desc'><b>Makes it PASS:</b> OP hears a steady once-per-second beep -&gt; presses PASS in the GUI (returns 253). Must be stopped afterwards: adb shell bash cfg-tool/audio_loop_stop.sh (do not inline pkill — the pattern matches the shell&#x27;s own command line and kills itself first)</div></td>
+                <td class="result-cell"><span class="badge manual">MANUAL</span></td>
+                <td class="code">253</td>
+                <td class="detail">Continuous 1 beep/sec on AMP speaker (background loop, keeps playing after stesting exits). After PASS run: adb shell bash .../cfg-tool/audio_loop_stop.sh. Return code 253 indicates manual testing required.</td>
+            </tr>
+            <tr class="manual">
+                <td class="casename">AUDIO_JACK<div class='desc'><b>How tested:</b> Same codec, same loop as #24, routed through HP Out to the 2.5mm jack instead</div><div class='desc'><b>Makes it PASS:</b> OP hears a once-per-second beep through headphones -&gt; 253. Stopped the same way as #24</div></td>
+                <td class="result-cell"><span class="badge manual">MANUAL</span></td>
+                <td class="code">253</td>
+                <td class="detail">Continuous 1 beep/sec on 2.5mm headphone jack (same wm8904 background loop as AMP). After PASS run: adb shell bash .../cfg-tool/audio_loop_stop.sh. Return code 253 indicates manual testing required.</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">BKEY_SIM<div class='desc'><b>How tested:</b> Takes the first /dev/cdc-wdm*, runs mbimcli --query-subscriber-ready-status</div><div class='desc'><b>Makes it PASS:</b> Output contains Ready state: &#x27;initialized&#x27; (module read the SIM) -&gt; 0. Network registration is deliberately not checked, so no antenna is needed</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="manual">
+                <td class="casename">MIPI_CAMERA<div class='desc'><b>How tested:</b> mipi-cam-save-image.sh: installs the ev8m_oom1 camera bins -&gt; captures one 800x450 JPEG per camera (cam0.jpg/cam1.jpg) -&gt; opens two live preview windows on Weston that keep streaming</div><div class='desc'><b>Makes it PASS:</b> OP sees both preview windows showing a picture -&gt; presses PASS in the GUI (returns 253). Capture/stream failure (still no image after 3 retries) -&gt; 2</div></td>
+                <td class="result-cell"><span class="badge manual">MANUAL</span></td>
+                <td class="code">253</td>
+                <td class="detail">Dual MIPI cameras capture cam0.jpg/cam1.jpg (800x450 JPEG) to cfg-tool dir, then two live preview windows stream on Weston until next run. Return code 253 indicates manual testing required.</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">CN_CAN_FD1<div class='desc'><b>How tested:</b> can_tx_test.sh: on-board can0 (mcp251xfd) &lt;-&gt; EMUC-B202&#x27;s emuccanX; bitrate auto-synced from /etc/innodisk/emuc-can.conf; sends test frames both ways and auto-detects which emuccanX is actually wired</div><div class='desc'><b>Makes it PASS:</b> Test frames received in both directions -&gt; 0; can0 fails to come up, or nothing is received on any channel -&gt; 3 (check CAN_H/CAN_L wiring, 120 ohm termination, whether the B202 is powered)</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">RTC<div class='desc'><b>How tested:</b> hwclock --set --date=&quot;2026-02-13 09:12:00&quot; -&gt; sleep 2 -&gt; hwclock -r (external RTC RX8130)</div><div class='desc'><b>Makes it PASS:</b> Both hwclock calls succeed (exit 0) -&gt; 0. Only checks the command succeeded — the time value itself is never compared, and this does overwrite the RTC to 2026-02-13 — run hwclock -w afterwards to restore it from system time</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">FASTRPC_DSP<div class='desc'><b>How tested:</b> fastrpc_dsp_test.sh: polls for all 9 /dev/fastrpc-* nodes (adsp/cdsp/cdsp1/gpdsp0/gpdsp1, each plus its secure variant)</div><div class='desc'><b>Makes it PASS:</b> All 9/9 nodes present -&gt; 0; any missing -&gt; 3 (a missing cdsp* breaks the customer&#x27;s NPU/QNN path)</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr></tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>I2C <span class="badge pass">5 cases</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="pass">
+                <td class="casename">I2C_wm8904<div class='desc'><b>How tested:</b> Wolfson WM8904 audio codec, bus 0 / 0x1a (source of the sound in #24/#25)</div><div class='desc'><b>Makes it PASS:</b> i2cget -f -y 0 0x1a returns a value -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">0x89
+</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">I2C_tca6408<div class='desc'><b>How tested:</b> TI TCA6408 I/O expander (gpiochip711), bus 0 / 0x20</div><div class='desc'><b>Makes it PASS:</b> Returns a value -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">0xfc
+</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">I2C_ina260<div class='desc'><b>How tested:</b> TI INA260 current/power monitor, bus 0 / 0x40</div><div class='desc'><b>Makes it PASS:</b> Returns a value -&gt; 0</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">0x00
+</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">I2C_SOM<div class='desc'><b>How tested:</b> Device on the SOM-side I2C, bus 2 / 0x20</div><div class='desc'><b>Makes it PASS:</b> Returns a value -&gt; 0; empty -&gt; 3 (fixture/SOM side not connected)</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">0xff
+</td>
+            </tr>
+            <tr class="pass">
+                <td class="casename">JP_SPI_I2C1-I2C<div class='desc'><b>How tested:</b> JP_SPI_I2C1 jumper&#x27;s I2C pins (same connector as #22, switched to I2C mode), bus 3 / 0x20</div><div class='desc'><b>Makes it PASS:</b> Returns a value -&gt; 0. When the jumper is set to SPI this naturally reads nothing</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail">0xff
+</td>
+            </tr></tbody>
+            </table>
+        </section>
+        <section class="card">
+            <h2>GPIO <span class="badge pass">1 case</span></h2>
+            <table>
+                <thead><tr><th>Case</th><th>Result</th><th>Code</th><th>Detail</th></tr></thead>
+                <tbody>
+            <tr class="pass">
+                <td class="casename">CN_GPIO1<div class='desc'><b>How tested:</b> 8 sysfs GPIOs 678-685 (= TLMM GPIO_118-GPIO_125), each exported -&gt; out -&gt; write 0 -&gt; read back, then write 1 -&gt; switch to in -&gt; read back</div><div class='desc'><b>Makes it PASS:</b> All 8 pins pass both stages reading 0 -&gt; 0. Stage 1 (write 0, read 0) failure -&gt; 2 (pin stuck high / shorted to VCC / can&#x27;t be driven); stage 2 (write 1, switch to in, read 0) failure -&gt; 3 (floating pin not pulled low — usually the fixture isn&#x27;t connected)</div></td>
+                <td class="result-cell"><span class="badge pass">PASS</span></td>
+                <td class="code">0</td>
+                <td class="detail"></td>
+            </tr></tbody>
+            </table>
+        </section>
+
+    
+
+    <footer>Generated by tools/gen_report.py from stesting.log.json + excc-q911.json + excc-q911.testlist.en.md</footer>
+</div>
+</body>
+</html>
