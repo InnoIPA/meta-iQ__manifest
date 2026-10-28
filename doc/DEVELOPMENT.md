@@ -1,5 +1,5 @@
 <!--
- Copyright (c) 2026 innodisk Crop.
+ Copyright (c) 2026 innodisk Corp.
  
  This software is released under the MIT License.
  https://opensource.org/licenses/MIT
@@ -16,11 +16,11 @@
 2. Build Image with `meta-iQ-extra__confidential`.
     ```bash
     DL_DIR=../downloads SSTATE_DIR=../sstate-cache kas-container --ssh-dir ~/.ssh build \
-    meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota-confidential.yml
+    meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/distro-sota-confidential.yml
     ```
     ```bash
     kas-container --ssh-dir ~/.ssh build \
-    meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota-confidential.yml
+    meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/distro-sota-confidential.yml
     ```
 3. Clean build and test functions with stesting(keep the report for github release).
 4. Test run [iqs-streampipe](https://github.com/InnoIPA/iQ-Studio/tree/main/benchmarks/iqs-streampipe) for checking soc internal functions.
