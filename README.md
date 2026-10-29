@@ -1,5 +1,5 @@
 <!--
- Copyright (c) 2025 innodisk Crop.
+ Copyright (c) 2025 innodisk Corp.
  
  This software is released under the MIT License.
  https://opensource.org/licenses/MIT
@@ -27,13 +27,14 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
 # Latest release 
 | [Version](doc/VERSION.md) | Date | Status | Description |
 |---------|--------------|-----------|-------------|
-| v2.5.0  | 2026-09-23   | Released  | Upgrade to QLI2.0, new exmp-q801 (QCS8275) EVT platform baseline. |
+| v2.5.1  | 2026-10-29   | Released  | exmp-q801 2.5G ethernet, DSI to DP, usb host/adb mode, camera stability, Ubuntu 24.04 image, per-machine SBOM. |
 
 <details>
 <summary>Release history</summary>
 
 | [Version](doc/VERSION.md) | Date | Status | Description |
 |---------|--------------|-----------|-------------|
+| v2.5.1  | 2026-10-29   | Released  | exmp-q801 2.5G ethernet, DSI to DP, usb host/adb mode, camera stability, Ubuntu 24.04 image, per-machine SBOM. |
 | v2.5.0  | 2026-09-23   | Released  | Upgrade to QLI2.0, new exmp-q801 (QCS8275) EVT platform baseline. |
 | v2.3.5  | 2026-08-21   | Released  | Qcom fw for IQ9 with PMIC PWR hard-reset, capsule OTA flow, exmp eth0/eth1 naming fix. |
 | v2.3.4  | 2026-07-31   | Released  | Feat kas, refine meta-layer, fix I/O issues, support sbom. |
@@ -78,20 +79,20 @@ This repository provide the bsp for following platfroms which base on [Qualcomm 
     Swap `kas/exmp-q911.yml` to target another machine from the table above.
     ```bash
     # Container build image
-    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/distro-sota.yml
     ```
     ```bash
     # Container build image and generate SBOM (SPDX + CycloneDX)
-    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml:meta-innodisk-iq/kas/sbom.yml
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/distro-sota.yml:meta-innodisk-iq/kas/sbom.yml
     ```
     ```bash
     # Container build sdk
-    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml \
+    kas-container build meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/distro-sota.yml \
         -c populate_sdk
     ```
     ```bash
     # Open container with console
-    kas-container shell meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/innodisk-distro-sota.yml
+    kas-container shell meta-innodisk-iq/kas/exmp-q911.yml:meta-innodisk-iq/kas/distro-sota.yml
     ```
     ```bash
     # optional : for shared download & sstate-cache folder

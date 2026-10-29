@@ -78,7 +78,7 @@ These exist specifically to support design-change review, customer acceptance an
 | Design change | Why it's needed | Where |
 |---|---|---|
 | kas build configs | Reproducible, containerized build definition pinning every upstream layer (poky, meta-openembedded, meta-qcom*, etc.) plus this layer, per target machine | [ci/base.yml](../ci/base.yml), [kas/exmp-q911.yml](../kas/exmp-q911.yml), [kas/distro-sota.yml](../kas/distro-sota.yml) |
-| Confidential release channel | Separate build overlay pulling in customer-restricted sources for controlled release builds | [kas/distro-sota-confidential.yml](../kas/distro-sota-confidential.yml) |
+| Confidential release channel | Separate build overlay pulling in customer-restricted sources for controlled release builds | [kas/confidential.yml](../kas/confidential.yml) |
 | Documented release flow | Defines the exact steps (tag → build → test → package → release) so every release is reproducible and auditable | [DEVELOPMENT.md — Release flow](DEVELOPMENT.md#release-flow) |
 | UEFI capsule packaging | Packages `capsule.cap` as part of the release build, with `xbl_config.elf` pre-patched by default so a later OTA update can apply | [jenkinsfile](jenkinsfile) |
 | Layer contribution rules | Keeps the ODM layer's changes scoped and reviewable (bbappend-only in `recipes-bsp/`, per-machine separation, oelint-adv style) | [DEVELOPMENT.md — Rules of meta-layers](DEVELOPMENT.md#rules-of-meta-layers) |

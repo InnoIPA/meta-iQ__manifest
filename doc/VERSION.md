@@ -45,6 +45,26 @@
 
 # Release Notes
 
+## v2.5.1 - 2026-10-29
+- feat: new CDT for exmp-q801 (QCS8275) 2 PMICs SKU
+- feat: ethernet0 2.5G, rx-fifo-depth increased for iperf 2.5G performance
+- feat: DSI to DP (Lontium LT9711) function, weston-dp.ini config for DSI 4K support (default off for 2K display)
+- feat: usb1 & usb2 default host mode, usb1 auto switch to device mode for adb if usb-debugging-enabled exists
+- feat: qup1_se3_l2 to qcs8300 pinctrl driver for i2c11 function
+- feat: inno-fan support to exmp-q801
+- feat: patches from qcom for camera stability (cam-dlkm)
+- feat: Ubuntu 24.04 image package and build flow (x15), Ubuntu image naming for CI flow management
+- feat: SBOM (CycloneDX) exported per machine
+- fix: FIT image part for exmp-q801 UEFI hang issue
+- fix: mdio clk rate and phy address
+- fix: tpm function of exmp-q801
+- fix: disable uart6, the function of these qup should be gpio
+- fix: inno-daemon ethernet up missing issue
+- chore: remove unused kconfig and refine fw install
+- chore: fix BB_HASHSERVE_DB_DIR warning
+- chore: refine kas yml files, rename confidential.yml to unify CI entry point
+- doc: update README of Ubuntu build image, fix typo
+
 ## v2.5.0 - 2026-09-23
 - feat: exmp-q801 (QCS8275, excc-q801 carrier) EVT platform baseline, base files and device-tree
 - feat: tensorflow-lite libraries and tf-lite support in packagegroup-innodisk
